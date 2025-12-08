@@ -1,0 +1,4 @@
+SmartStudyPlanner
+
+This project implements a console-based study planner.
+It demonstrates Java concepts CO-1 through CO-6 as required.

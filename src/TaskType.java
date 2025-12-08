@@ -1,0 +1,4 @@
+// Minimal TaskType enum kept as placeholder
+enum TaskType {
+    READING, WRITING, RESEARCH, REVISION, ASSIGNMENT, PROJECT, EXAM_PREPARATION, HOMEWORK, MISCELLANEOUS
+}

@@ -33,6 +33,7 @@ public class TaskManager {
             System.out.println("5. Sort by priority");
             System.out.println("6. Sort by deadline");
             System.out.println("7. Save and exit");
+            System.out.println("Enter option number:");
             String choice = sc.nextLine().trim();
             switch (choice) {
                 case "1":
@@ -152,13 +153,14 @@ public class TaskManager {
             System.out.println("No tasks available");
             return;
         }
-        // CO-2: use arrays for listing and sorting examples
-        Task[] arr = tasks.toArray(new Task[0]);
-        for (int i = 0; i < arr.length; i++) {
-            System.out.printf("%d) %s\n", i + 1, arr[i].toString());
-            // show notifications per task
+        // CO-2: simplified listing format to avoid clutter
+        for (int i = 0; i < tasks.size(); i++) {
+            Task t = tasks.get(i);
+            String dl = DeadlineUtils.formatForDisplay(t.getDeadline());
+            System.out.printf("Task %d: %s - %s - %s\n", i + 1, t.getTitle(), t.getProgress().name(), dl);
+            // show notifications per task in concise form
             BaseNotifier notifier = new NotificationService();
-            notifier.check(arr[i]);
+            notifier.check(t);
         }
     }
 
@@ -199,8 +201,17 @@ public class TaskManager {
         System.out.println("Enter search keyword");
         String q = sc.nextLine().trim();
         List<Task> found = tasks.stream().filter(t -> t.getTitle().toLowerCase().contains(q.toLowerCase())).collect(Collectors.toList());
-        if (found.isEmpty()) System.out.println("No tasks found");
-        else found.forEach(t -> System.out.println(t.toString()));
+        if (found.isEmpty()) {
+            System.out.println("No tasks found");
+            return;
+        }
+        for (int i = 0; i < found.size(); i++) {
+            Task t = found.get(i);
+            String dl = DeadlineUtils.formatForDisplay(t.getDeadline());
+            System.out.printf("Task %d: %s - %s - %s\n", i + 1, t.getTitle(), t.getProgressLabel(), dl);
+            BaseNotifier notifier = new NotificationService();
+            notifier.check(t);
+        }
     }
 
     private void sortByPriority() {

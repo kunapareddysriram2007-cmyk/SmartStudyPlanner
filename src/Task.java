@@ -11,6 +11,7 @@ public class Task implements Serializable {
     private LocalDateTime deadline;
     private ProgressStatus progress;
     private LocalDateTime createdAt;
+    private LocalDateTime completedAt;
 
     public Task(String id, String title, TaskCategory category, int priority, LocalDateTime deadline) {
         this.id = id;
@@ -64,6 +65,23 @@ public class Task implements Serializable {
 
     public void setProgress(ProgressStatus progress) {
         this.progress = progress;
+        if (progress == ProgressStatus.COMPLETED) {
+            this.completedAt = LocalDateTime.now();
+        } else {
+            this.completedAt = null;
+        }
+    }
+
+    public LocalDateTime getCompletedAt() {
+        return completedAt;
+    }
+
+    public String getProgressLabel() {
+        switch (this.progress) {
+            case IN_PROGRESS: return "In Progress";
+            case COMPLETED: return "Submitted";
+            default: return "Not Started";
+        }
     }
 
     public LocalDateTime getCreatedAt() {
